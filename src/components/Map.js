@@ -7,11 +7,17 @@ function Map() {
     let view;
     const initializeMap = (mapRef) => {
       loadModules(
-        ["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer"],
+        [
+          "esri/Map",
+          "esri/views/MapView",
+          "esri/layers/GeoJSONLayer",
+          "esri/widgets/Search",
+          "esri/widgets/Zoom",
+        ],
         {
           css: true,
         }
-      ).then(([Map, MapView, GeoJSONLayer]) => {
+      ).then(([Map, MapView, GeoJSONLayer, Search, Zoom]) => {
         const map = new Map({ basemap: "topo-vector" });
         const template = {
           title: "Crime Info - Arrest Charge: {arrest_charge}",
@@ -55,6 +61,10 @@ function Map() {
           container: mapRef.current,
           center: [-83.09854523, 42.384534],
         });
+        const search = new Search({
+          view: view,
+        });
+        view.ui.add(search, "top-right");
         const layer = new GeoJSONLayer({
           url: "https://raw.githubusercontent.com/adarshvarma15/mygeojson/main/RMS_Crime_Incidents%20edited.geojson",
           renderer: renderer,
@@ -66,6 +76,10 @@ function Map() {
     initializeMap(mapRef);
     return () => view?.destroy();
   }, []);
-  return <div className="map-view" style={{ height: "600px" }} ref={mapRef} />;
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className="map-view" style={{ height: "600px" }} ref={mapRef} />
+    </div>
+  );
 }
 export default Map;

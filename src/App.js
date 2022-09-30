@@ -7,7 +7,10 @@ function App() {
   return (
     <div className="App">
       <h1> Crime Density </h1>
-      <button onClick={() => setIsShow(!isShow)}>
+      <button
+        className="btn btn-primary main-btn"
+        onClick={() => setIsShow(!isShow)}
+      >
         Click to {isShow ? "Close" : "Open"} the Map
       </button>
       <div>{isShow && <Map />}</div>
